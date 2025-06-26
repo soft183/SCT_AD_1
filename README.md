@@ -1,105 +1,133 @@
-package com.example.calculator;
-
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-
-public class MainActivity extends AppCompatActivity {
-    EditText num1, num2;
-    TextView result;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        num1 = findViewById(R.id.num1);
-        num2 = findViewById(R.id.num2);
-        result = findViewById(R.id.result);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculator - SkillCraft Technology</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
     }
 
-    public void add(View view) {
-        double a = Double.parseDouble(num1.getText().toString());
-        double b = Double.parseDouble(num2.getText().toString());
-        result.setText("Result: " + (a + b));
+    .calculator {
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+      width: 300px;
     }
 
-    public void subtract(View view) {
-        double a = Double.parseDouble(num1.getText().toString());
-        double b = Double.parseDouble(num2.getText().toString());
-        result.setText("Result: " + (a - b));
+    input[type="text"] {
+      width: 100%;
+      height: 60px;
+      font-size: 24px;
+      text-align: right;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      background-color: #2d2d2d;
+      color: white;
     }
 
-    public void multiply(View view) {
-        double a = Double.parseDouble(num1.getText().toString());
-        double b = Double.parseDouble(num2.getText().toString());
-        result.setText("Result: " + (a * b));
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
     }
 
-    public void divide(View view) {
-        double a = Double.parseDouble(num1.getText().toString());
-        double b = Double.parseDouble(num2.getText().toString());
-        if (b == 0) {
-            result.setText("Cannot divide by 0");
-        } else {
-            result.setText("Result: " + (a / b));
-        }
+    button {
+      padding: 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
-}
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp"
-    android:gravity="center">
 
-    <EditText
-        android:id="@+id/num1"
-        android:hint="Enter number 1"
-        android:inputType="numberDecimal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    button:hover {
+      background-color: #555;
+    }
 
-    <EditText
-        android:id="@+id/num2"
-        android:hint="Enter number 2"
-        android:inputType="numberDecimal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    .operator {
+      background-color: #008080;
+    }
 
-    <Button
-        android:onClick="add"
-        android:text="Add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    .operator:hover {
+      background-color: #00b3b3;
+    }
 
-    <Button
-        android:onClick="subtract"
-        android:text="Subtract"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    .equal {
+      background-color: #00cc44;
+    }
 
-    <Button
-        android:onClick="multiply"
-        android:text="Multiply"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    .equal:hover {
+      background-color: #00e65c;
+    }
 
-    <Button
-        android:onClick="divide"
-        android:text="Divide"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    .clear {
+      background-color: #cc0000;
+    }
 
-    <TextView
-        android:id="@+id/result"
-        android:text="Result:"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    .clear:hover {
+      background-color: #ff1a1a;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" id="display" readonly>
+    <div class="buttons">
+      <button onclick="clearDisplay()" class="clear">C</button>
+      <button onclick="append('%')" class="operator">%</button>
+      <button onclick="append('/')" class="operator">÷</button>
+      <button onclick="append('*')" class="operator">×</button>
 
-</LinearLayout>
+      <button onclick="append('7')">7</button>
+      <button onclick="append('8')">8</button>
+      <button onclick="append('9')">9</button>
+      <button onclick="append('-')" class="operator">−</button>
+
+      <button onclick="append('4')">4</button>
+      <button onclick="append('5')">5</button>
+      <button onclick="append('6')">6</button>
+      <button onclick="append('+')" class="operator">+</button>
+
+      <button onclick="append('1')">1</button>
+      <button onclick="append('2')">2</button>
+      <button onclick="append('3')">3</button>
+      <button onclick="calculate()" class="equal">=</button>
+
+      <button onclick="append('0')" style="grid-column: span 2;">0</button>
+      <button onclick="append('.')">.</button>
+    </div>
+  </div>
+
+  <script>
+    function append(character) {
+      document.getElementById('display').value += character;
+    }
+
+    function clearDisplay() {
+      document.getElementById('display').value = '';
+    }
+
+    function calculate() {
+      try {
+        document.getElementById('display').value = eval(document.getElementById('display').value);
+      } catch {
+        document.getElementById('display').value = 'Error';
+      }
+    }
+  </script>
+</body>
+</html>
